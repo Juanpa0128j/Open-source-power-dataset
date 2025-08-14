@@ -437,7 +437,7 @@ if __name__ == '__main__':
     parser.add_argument('--manual_seed', '-manual_seed', type=int, help='manual_seed')
 
     args = vars(parser.parse_args())
-    with open('./../configs/MiniRocket.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/MiniRocket.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

@@ -11,7 +11,6 @@ from utils import merge_parameters, Pytorch_DNN_exp, Pytorch_DNN_testing, Pytorc
 import numpy as np
 from FNN import HistoryConcatLoader
 import os
-from copy import deepcopy
 from sklearn.model_selection import ParameterGrid
 from collections import OrderedDict
 import json
@@ -300,7 +299,7 @@ if __name__ == '__main__':
     parser.add_argument('--external_flag', '-external_flag', type=str, help='list of external_flag options')
 
     args = vars(parser.parse_args())
-    with open('./../configs/NBeats.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/NBeats.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

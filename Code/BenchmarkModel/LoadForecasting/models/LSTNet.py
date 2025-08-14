@@ -16,7 +16,6 @@ import numpy as np
 from collections import OrderedDict
 from sklearn.model_selection import ParameterGrid
 import argparse
-from torch import optim
 
 class LSTNetModel(nn.Module):
     def __init__(self,
@@ -304,7 +303,7 @@ if __name__ == '__main__':
     parser.add_argument('--highway_window', '-highway_window', type=str, help='list of the window size of the highway component options')
 
     args = vars(parser.parse_args())
-    with open('./../configs/LSTNet.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/LSTNet.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

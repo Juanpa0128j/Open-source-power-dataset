@@ -79,7 +79,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
 
     args = vars(parser.parse_args())
-    with open('./../configs/NNEuclidean.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/NNEuclidean.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

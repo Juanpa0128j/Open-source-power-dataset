@@ -114,7 +114,7 @@ if __name__ == '__main__':
     parser.add_argument('--criterion', '-criterion', type=str, help='criterion')
 
     args = vars(parser.parse_args())
-    with open('./../configs/random_forest.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/random_forest.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

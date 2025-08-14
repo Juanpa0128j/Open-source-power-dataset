@@ -229,7 +229,7 @@ if __name__ == '__main__':
     parser.add_argument('--train_valid_ratio', '-train_valid_ratio', type=float, help='select hyperparameters on validation set')
 
     args = vars(parser.parse_args())
-    with open('./../configs/exponential_smoothing.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/exponential_smoothing.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

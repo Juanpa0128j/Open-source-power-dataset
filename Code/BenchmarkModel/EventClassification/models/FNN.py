@@ -208,7 +208,7 @@ if __name__ == '__main__':
     parser.add_argument('--target_name', '-target_name', type=str, help='subtasks to complete')
 
     args = vars(parser.parse_args())
-    with open('./../configs/FNN.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/FNN.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

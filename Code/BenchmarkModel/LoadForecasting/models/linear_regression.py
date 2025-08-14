@@ -114,7 +114,7 @@ if __name__ == '__main__':
     parser.add_argument('--learning_rate', '-learning_rate', type=str, help='learning_rate')
 
     args = vars(parser.parse_args())
-    with open('./../configs/linear_regression.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/linear_regression.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

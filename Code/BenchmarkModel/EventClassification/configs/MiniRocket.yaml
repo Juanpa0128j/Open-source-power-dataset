@@ -13,6 +13,6 @@ exp_params:
   data_path: '../../../../PSML/processed_datasets/classification.pkl'
 
 logging_params:
-  save_dir: './../logs'
+  save_dir: '/home/juan/microgrids/logs'
   name: 'MiniRocket'
   manual_seed: 0

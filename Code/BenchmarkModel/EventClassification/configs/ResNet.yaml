@@ -24,6 +24,6 @@ trainer_params:
   gpus: [-1] #NOTE: melady4 fails for tf gpu
 
 logging_params:
-  save_dir: './../logs'
+  save_dir: '/home/juan/microgrids/logs'
   name: 'resnet'
   manual_seed: 0

@@ -168,7 +168,7 @@ if __name__ == '__main__':
     parser.add_argument('--type', '-type', type=str, help='either independent or dependent for all feature dimensions')
 
     args = vars(parser.parse_args())
-    with open('./../configs/NNDTW.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/NNDTW.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

@@ -9,7 +9,7 @@ import pickle
 import pandas as pd
 
 class TimeSeriesEvaluator:
-    def __init__(self, task, root='./../PSML/'):
+    def __init__(self, task, root='/home/juan/microgrids/PSML'):
         self.task = task
         self.root = root
         assert self.task in ['classification', 'forecasting', 'generation']
@@ -57,7 +57,7 @@ class TimeSeriesEvaluator:
         return desc
 
 def _test_classification_evaluator():
-    evaluator = TimeSeriesEvaluator(task='classification', root='/meladyfs/newyork/nanx/freetime/freetime/PowerSystem')
+    evaluator = TimeSeriesEvaluator(task='classification', root='/home/juan/microgrids/PSML')
     print(evaluator.expected_input_format)
     print(evaluator.expected_output_format)
     predictions = pickle.load(open('/meladyfs/newyork/nanx/freetime/examples/power_classification/logs/cnn/version_49/predictions.pkl', 'rb'))
@@ -70,7 +70,7 @@ def _test_classification_evaluator():
     return result_dict
 
 def _test_forecasting_evaluator():
-    evaluator = TimeSeriesEvaluator(task='forecasting', root='/meladyfs/newyork/nanx/Datasets/PSML')
+    evaluator = TimeSeriesEvaluator(task='forecasting', root='/home/juan/microgrids/PSML')
     print(evaluator.expected_input_format)
     print(evaluator.expected_output_format)
     predictions = pd.read_csv('/meladyfs/newyork/nanx/freetime/examples/power_forecasting/logs/exponential_smoothing/version_2/CAISO_zone_1_2018.csv')
@@ -83,14 +83,13 @@ def _test_forecasting_evaluator():
     return result_dict
 
 def _test_generation_evaluator():
-    evaluator = TimeSeriesEvaluator(task='generation', root='/meladyfs/newyork/nanx/Datasets/PSML')
+    evaluator = TimeSeriesEvaluator(task='generation', root='/home/juan/microgrids/PSML')
     result_dict = evaluator.eval(input_dict = {})
     return result_dict
 
 
 if __name__ == '__main__':
-    # _test_classification_evaluator()
+    _test_classification_evaluator()
     #_test_forecasting_evaluator()
     #_test_generation_evaluator()
-    print()
 

@@ -18,7 +18,6 @@ import json
 from collections import OrderedDict
 from sklearn.model_selection import ParameterGrid
 import argparse
-import torch.nn.functional as F
 
 class Chomp1d(nn.Module):
     def __init__(self, chomp_size):
@@ -311,7 +310,7 @@ if __name__ == '__main__':
     parser.add_argument('--kernel_size', '-kernel_size', type=str, help='list of kernel_size')
 
     args = vars(parser.parse_args())
-    with open('./../configs/tcn.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/tcn.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

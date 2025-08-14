@@ -239,7 +239,7 @@ if __name__ == '__main__':
     parser.add_argument('--model_name', '-model_name', type=str, help='model_name, one of RNN, GRU, LSTM')
 
     args = vars(parser.parse_args())
-    config_path = './../configs/RNN.yaml'
+    config_path = '/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/RNN.yaml'
     with open(config_path, 'r') as file:
         try:
             config = yaml.safe_load(file)

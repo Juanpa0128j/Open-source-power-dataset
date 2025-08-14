@@ -16,7 +16,6 @@ from sklearn.model_selection import ParameterGrid
 from collections import OrderedDict
 import json
 
-
 class ELM_exp(FNN_exp):
     def __init__(self, file, param_dict, config):
         super().__init__(file, param_dict, config)
@@ -171,7 +170,7 @@ if __name__ == '__main__':
     parser.add_argument('--dropout', '-dropout', type=str, help='list of dropout rates')
 
     args = vars(parser.parse_args())
-    with open('./../configs/ELM.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/ELM.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

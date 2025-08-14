@@ -14,13 +14,11 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.arima.model import ARIMA
-from copy import deepcopy
 import warnings
 warnings.filterwarnings("ignore")
 import json
 from statsmodels.tsa.vector_ar.var_model import VAR
 import itertools
-from collections import OrderedDict
 
 def arima_validation(file, param_dict_list, config):
     data = pd.read_csv(file)
@@ -178,8 +176,10 @@ def arima_testing(file, param_summary, config, interval_multiplier):
         sliding_window, p = param_dict['sliding_window'], param_dict['p']
         if param_dict['variate_options']['variate'] == 'uni':
             d, q = param_dict['variate_options']['d'], param_dict['variate_options']['q']
+            print("doing univariate predictions...")
             cur_predictions = uni_arima_testing(task_horizon, data, testing_index, sliding_window, p, d, q, param_dict, config)
         elif param_dict['variate_options']['variate'] == 'multi':
+            print("doing multivariate predictions...")
             cur_predictions = multi_arima_testing(task_horizon, data, testing_index, sliding_window, p, param_dict, config)
         testing_predictions.append(cur_predictions)
         columns.append(f'{task_horizon}(mean)')
@@ -217,7 +217,7 @@ def uni_arima_testing(task_horizon, data, testing_index, sliding_window, p, d, q
     for iter, index in enumerate(testing_index):
         if data[f'y{task_name[0]}_t+{horizon_val}(flag)'][index] == 0:
             continue
-        # print(f'{iter}/{len(testing_index)}')
+        print(f'{iter}/{len(testing_index)}')
         history_y_t = total_y_t[index+1-sliding_window:index+1]
         if param_dict['external_feature_flag']:
             history_features = total_features[index+1-sliding_window:index+1]
@@ -392,7 +392,7 @@ if __name__ == '__main__':
     parser.add_argument('--variate', '-variate', type=str, help='list of variate options, either uni or multi')
     args = vars(parser.parse_args())
     # print(f'args: {args}')
-    with open('./../configs/arima.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/arima.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

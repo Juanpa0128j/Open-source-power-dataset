@@ -12,7 +12,7 @@ exp_params:
 trainer_params:
 
 logging_params:
-  save_dir: './../logs'
+  save_dir: '/home/juan/microgrids/logs'
   name: 'NNDTW'
 
 

@@ -6,7 +6,7 @@ from BenchmarkModel.SyntheticDataGeneration.processing import GenerationDataset
 
 
 class TimeSeriesLoader():
-    def __init__(self, task, root='./../PSML/'):
+    def __init__(self, task, root='/home/juan/microgrids/PSML'):
         """ Initiate data loading for each task
         """
         self.task = task
@@ -38,7 +38,7 @@ class TimeSeriesLoader():
 
 
 def _test_classification_loader():
-    loader_ins = TimeSeriesLoader('classification', root='/meladyfs/newyork/nanx/Datasets/PSML')
+    loader_ins = TimeSeriesLoader('classification', root='/home/juan/microgrids/PSML')
     train_loader, test_loader = loader_ins.load(batch_size=32, shuffle=True)
     
     print(f'train_loader: {len(train_loader)}')
@@ -56,28 +56,26 @@ def _test_classification_loader():
     return
 
 def _test_forecasting_loader():
-    loader_ins = TimeSeriesLoader('forecasting', root='/meladyfs/newyork/nanx/Datasets/PSML')
+    loader_ins = TimeSeriesLoader('forecasting', root='/home/juan/microgrids/PSML')
     train_loader, test_loader = loader_ins.load(batch_size=32, shuffle=True)
     
-    print(f'train_loader: {len(train_loader)}')
-    for i in train_loader:
-        x, y, flag = i
+    print('train_loader: streaming (length unknown)')
+    for batch in train_loader:
+        x, y = batch
         print(f'x: {x.shape}')
         print(f'y: {y.shape}')
-        print(f'flag: {flag.shape}')
         break
 
-    print(f'test_loader: {len(test_loader)}')
-    for i in test_loader:
-        ID, x = i
-        print(f'ID: {ID.shape}')
+    print('test_loader: streaming (length unknown)')
+    for batch in test_loader:
+        x = batch
         print(f'x: {x.shape}')
         break
         
     return
 
 def _test_generation_loader():
-    loader_ins = TimeSeriesLoader('generation', root='/meladyfs/newyork/nanx/Datasets/PSML')
+    loader_ins = TimeSeriesLoader('generation', root='/home/juan/microgrids/PSML')
     train_loader, test_loader = loader_ins.load(batch_size=32, shuffle=True)
     
     print(f'train_loader: {len(train_loader)}')
@@ -97,10 +95,9 @@ def _test_generation_loader():
     return
         
 if __name__ == '__main__':
-    #_test_classification_loader()
-    #_test_forecasting_loader()
-    #_test_generation_loader()
-    print()
-
-
-        
+    print(f"classification_loader:")
+    _test_classification_loader()
+    print(f"\nforecasting_loader:")
+    _test_forecasting_loader()
+    print(f"\ngeneration_loader:")
+    _test_generation_loader()

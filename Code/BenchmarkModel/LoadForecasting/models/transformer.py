@@ -248,7 +248,7 @@ if __name__ == '__main__':
     parser.add_argument('--classification_token', '-classification_token', type=str, help='list of classification tokens')
 
     args = vars(parser.parse_args())
-    with open('./../configs/transformer.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/transformer.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

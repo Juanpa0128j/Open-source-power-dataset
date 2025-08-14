@@ -18,11 +18,11 @@ exp_params:
 
   prediction_interval: 0.95
 
-  data_folder: '../../../../PSML/processed_datasets/forecasting'
+  data_folder: '/home/juan/microgrids/PSML/processed_dataset/forecasting'
 
 trainer_params:
 
 logging_params:
-  save_dir: './../logs'
+  save_dir: '/home/juan/microgrids/logs'
   name: 'gradient_boosting'
   manual_seed: 0

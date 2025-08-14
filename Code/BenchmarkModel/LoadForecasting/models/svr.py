@@ -113,7 +113,7 @@ if __name__ == '__main__':
     parser.add_argument('--kernel', '-kernel', type=str, help='list of kernels to grid search from')
 
     args = vars(parser.parse_args())
-    with open('./../configs/svr.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/svr.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

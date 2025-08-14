@@ -30,6 +30,6 @@ trainer_params:
   gpus: [-1]
 
 logging_params:
-  save_dir: './../logs'
+  save_dir: '/home/juan/microgrids/logs'
   name: 'MCDCNN'
   manual_seed: 0

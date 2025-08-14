@@ -10,7 +10,6 @@ import math
 import numpy as np
 import torch.nn.functional as F
 import pandas as pd
-import itertools
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from torch.utils.data import Dataset, DataLoader
 from utils import merge_parameters, Pytorch_DNN_exp, Pytorch_DNN_testing, Pytorch_DNN_validation, print_network, \
@@ -938,7 +937,7 @@ if __name__ == '__main__':
     parser.add_argument('--mix', '-mix', type=str, help='list of mix options')
 
     args = vars(parser.parse_args())
-    with open('./../configs/informer.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/informer.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

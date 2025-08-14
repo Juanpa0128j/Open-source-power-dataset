@@ -22,6 +22,6 @@ trainer_params:
   gpus: [-1]
 
 logging_params:
-  save_dir: './../logs'
+  save_dir: '/home/juan/microgrids/logs'
   name: 'MLSTMFCN'
   manual_seed: 0

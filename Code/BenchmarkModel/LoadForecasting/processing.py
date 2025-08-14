@@ -6,7 +6,7 @@ from tqdm import tqdm
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from collections import OrderedDict
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, IterableDataset
 
 external_feature_names = ['DHI', 'DNI', 'GHI', 'Dew Point', 'Solar Zenith Angle', 'Wind Speed', 'Relative Humidity', 'Temperature']
 target_features = ['load_power', 'wind_power', 'solar_power']
@@ -53,6 +53,30 @@ class HistoryConcatTestDataset(Dataset):
         return len(self.ID)
     def __getitem__(self, idx):
         return self.ID[idx], self.x[idx]
+
+class ForecastingIterableDataset(IterableDataset):
+    def __init__(self, csv_path, mode, x_cols, y_cols=None, idx_list=None):
+        self.csv_path = csv_path
+        self.mode = mode  # 'train' or 'test'
+        self.x_cols = x_cols
+        self.y_cols = y_cols
+        self.idx_list = idx_list
+
+    def __iter__(self):
+        import pandas as pd
+        chunk_iter = pd.read_csv(self.csv_path, chunksize=1024)
+        for chunk in chunk_iter:
+            # If idx_list is provided, filter rows
+            if self.idx_list is not None:
+                chunk = chunk[chunk.index.isin(self.idx_list)]
+            x = chunk[self.x_cols].to_numpy()
+            if self.mode == 'train' and self.y_cols is not None:
+                y = chunk[self.y_cols].to_numpy()
+                for i in range(len(x)):
+                    yield x[i], y[i]
+            else:
+                for i in range(len(x)):
+                    yield x[i]
 
 class ForecastingDataset:
     def __init__(self, root):
@@ -137,57 +161,20 @@ class ForecastingDataset:
         return
 
     def load(self, sliding_window, loc, year, batch_size, shuffle):
-        data = pd.read_csv(os.path.join(self.data_folder, f'{loc}_{year}.csv'))
-        train_flag = data['train_flag'].to_numpy()
-        training_index = np.sort(np.argwhere(train_flag == 1).reshape([-1]))[sliding_window:]
+        import pandas as pd
+        csv_path = os.path.join(self.data_folder, f'{loc}_{year}.csv')
+        df = pd.read_csv(csv_path)
+        train_flag = df['train_flag'].to_numpy()
+        train_idx = df.index[train_flag == 1].tolist()
+        test_idx = df.index[train_flag == 0].tolist()
 
-        self.history_column_names = list()
-        self.target_val_column_names = list()
-        for task_name, task_prediction_horizon_list in task_prediction_horizon.items():
-            self.history_column_names.append(f'y{task_name[0]}_t')
-            for horizon_val in task_prediction_horizon_list:
-                self.target_val_column_names.append(f'y{task_name[0]}_t+{horizon_val}(val)')
-        self.target_flag_column_names = [i.replace('val', 'flag') for i in self.target_val_column_names]
+        # Define columns for X and Y
+        x_cols = [col for col in df.columns if col not in ['ID', 'train_flag'] and not col.endswith('(val)') and not col.endswith('(flag)')]
+        y_cols = [col for col in df.columns if col.endswith('(val)')]
 
-        y_t = data[self.history_column_names].to_numpy()
-        external_features = data[external_feature_names].to_numpy()
+        train_dataset = ForecastingIterableDataset(csv_path, 'train', x_cols, y_cols, train_idx)
+        test_dataset = ForecastingIterableDataset(csv_path, 'test', x_cols, None, test_idx)
 
-        history_y_t = list()
-        for index in range(sliding_window, -1, -1):
-            history_y_t.append(y_t[training_index-index])
-            history_y_t.append(external_features[training_index-index])
-        history_y_t = np.concatenate(history_y_t, axis=-1)
-
-        training_validation_target_val = data[self.target_val_column_names].to_numpy()[training_index[sliding_window:]]
-        training_validation_target_flag = data[self.target_flag_column_names].to_numpy()[training_index[sliding_window:]]
-        selected_index = np.argwhere(np.prod(training_validation_target_flag, axis=-1) == 1).reshape([-1])
-
-        train_x, train_y = history_y_t[selected_index], training_validation_target_val[selected_index]
-
-        train_dataset = HistoryConcatTrainDataset(
-            torch.from_numpy(train_x).to(torch.float),
-            torch.from_numpy(train_y).to(torch.float),
-            torch.from_numpy(training_validation_target_flag[selected_index]).to(torch.float))
-        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle, pin_memory=True, drop_last=False)
-
-        """
-        prepare testing datasets
-        """
-        testing_index = np.sort(np.argwhere(train_flag == 0).reshape([-1]))
-        testing_data = data.iloc[testing_index]
-        testing_ID = testing_data['ID'].to_numpy()
-        history_y_t = list()
-        for index in range(sliding_window, -1, -1):
-            history_y_t.append(y_t[testing_index-index])
-            history_y_t.append(external_features[testing_index-index])
-        history_y_t = np.concatenate(history_y_t, axis=-1)
-
-        test_dataset = HistoryConcatTestDataset(
-            torch.from_numpy(testing_ID).to(torch.int),
-            torch.from_numpy(history_y_t).to(torch.float))
-        test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, pin_memory=True, drop_last=False)
-
+        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
+        test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
         return train_loader, test_loader
-
-
-

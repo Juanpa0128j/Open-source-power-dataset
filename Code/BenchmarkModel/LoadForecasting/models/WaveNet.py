@@ -8,7 +8,6 @@ import torch.nn as nn
 import torch
 from torch.autograd import Variable
 import numpy as np
-import time
 import math
 import torch.nn.functional as F
 from utils import Pytorch_DNN_exp, Pytorch_DNN_validation, Pytorch_DNN_testing, print_network, merge_parameters, \
@@ -493,7 +492,7 @@ if __name__ == '__main__':
     parser.add_argument('--kernel_size', '-kernel_size', type=str, help='list of kernel_size options')
 
     args = vars(parser.parse_args())
-    with open('./../configs/WaveNet.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/WaveNet.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

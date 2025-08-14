@@ -17,7 +17,6 @@ from copy import deepcopy
 from sklearn.model_selection import ParameterGrid
 import numpy as np
 import argparse
-import itertools
 import pandas as pd
 
 class DeepAR_model(nn.Module):
@@ -344,7 +343,7 @@ if __name__ == '__main__':
     parser.add_argument('--hidden_layers', '-hidden_layers', type=str, help='list of hidden_layers options')
 
     args = vars(parser.parse_args())
-    with open('./../configs/DeepAR.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/DeepAR.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

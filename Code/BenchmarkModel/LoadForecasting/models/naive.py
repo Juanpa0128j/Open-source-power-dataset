@@ -241,7 +241,7 @@ if __name__ == '__main__':
 
     args = vars(parser.parse_args())
     # print(f'args: {args}')
-    with open('./../configs/naive.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/naive.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:

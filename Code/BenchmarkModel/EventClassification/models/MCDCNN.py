@@ -357,7 +357,7 @@ if __name__ == '__main__':
     parser.add_argument('--decay', '-decay', type=str, help='list of decay options')
 
     args = vars(parser.parse_args())
-    with open('./../configs/MCDCNN.yaml', 'r') as file:
+    with open('/home/juan/microgrids/Open-source-power-dataset/Code/BenchmarkModel/LoadForecasting/configs/MCDCNN.yaml', 'r') as file:
         try:
             config = yaml.safe_load(file)
         except yaml.YAMLError as exc:
